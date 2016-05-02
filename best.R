@@ -6,6 +6,7 @@ best<-function(state, outcome) {
         ##Return Hospital name with lowest 30-day death rate
         index <- ifelse(outcome == "heart attack", 11, ifelse(outcome == "heart failure", 17, 23))
         
+                        ifelse(outcome == "heart failure", 17,
         #Read and coerce our dataset while suppressing warnings and removing NA's.
         
         #Invalid state input or no observations
