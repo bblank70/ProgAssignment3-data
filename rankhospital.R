@@ -1,6 +1,6 @@
 
 
-best<-function(state, outcome) {
+rankhospital<-function(state, outcome, num="best") {
         ##read hospital outcome(outcome-of-care-measures.csv)
         ##Check state and outcome for validity
         ##Return Hospital name with lowest 30-day death rate
@@ -20,10 +20,12 @@ best<-function(state, outcome) {
         }
         
         #Slice our data by the given state and sort it by outcome and hospital name.
-        slice <- subset(hosp, State==state)
-        slice <- slice[order(slice[,index], na.last=TRUE),2]
-        slice <- na.omit(slice)
+        Hosp_name <- subset(hosp, State==state)
+        Hosp_name <- Hosp_name[order(Hosp_name[,index], na.last=TRUE),2]
+        Hosp_name <- na.omit(Hosp_name)
+        
+        num <- ifelse(num == "best", 1, ifelse(num == "worst", length(Hosp_name), as.numeric(num)))
         
         #Get hospital name with the lowest 30-day mortality rate.
-        slice[1]
+        Hosp_name[num]
 }
