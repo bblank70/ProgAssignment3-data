@@ -8,21 +8,21 @@ rankhospital<-function(state, outcome, num="best") {
                         ifelse(outcome == "heart failure", 17,
                                ifelse(outcome == "pneumonia",23,
                                       stop("invalid outcome"))))
-        #Read and coerce our dataset while suppressing warnings and removing NA's.
+        ##Read and coerce our dataset while suppressing warnings and removing NA's.
         hosp <- read.csv("outcome-of-care-measures.csv", colClasses="character")
         hosp[,index] <- suppressWarnings(as.numeric(hosp[,index]))
         hosp <- na.omit(hosp)
         
-        #Invalid state input or no observations
+        ##Invalid state input or no observations
         states <- table(hosp$State)
         if (!state %in% names(states)) { 
                 stop("invalid state")
         }
         
-        #Slice our data by the given state and sort it by outcome and hospital name.
+        ##Slice our data by the given state and sort it by outcome and hospital name.
         Hosp_name <- subset(hosp, State==state)
-        Hosp_name <- Hosp_name[order(Hosp_name[,index], na.last=TRUE),2]
-        Hosp_name <- na.omit(Hosp_name)
+        Hosp_name <- Hosp_name[order(Hosp_name[,index], na.last=NA),2]
+        
         
         num <- ifelse(num == "best", 1, ifelse(num == "worst", length(Hosp_name), as.numeric(num)))
         
