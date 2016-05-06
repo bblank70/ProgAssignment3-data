@@ -13,6 +13,7 @@ rankhospital<-function(state, outcome, num="best") {
         hosp[,index] <- suppressWarnings(as.numeric(hosp[,index]))
         hosp <- na.omit(hosp)
         
+        
         ##Invalid state input or no observations
         states <- table(hosp$State)
         if (!state %in% names(states)) { 
@@ -21,8 +22,8 @@ rankhospital<-function(state, outcome, num="best") {
         
         ##Slice our data by the given state and sort it by outcome and hospital name.
         Hosp_name <- subset(hosp, State==state)
-        Hosp_name <- Hosp_name[order(Hosp_name[,index], na.last=NA),2]
-        
+        Hosp_name <- Hosp_name[order(Hosp_name[,index], Hosp_name[,2], na.last=NA),2]
+       
         
         num <- ifelse(num == "best", 1, ifelse(num == "worst", length(Hosp_name), as.numeric(num)))
         
